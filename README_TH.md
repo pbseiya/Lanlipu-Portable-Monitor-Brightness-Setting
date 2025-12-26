@@ -56,6 +56,13 @@
 7. **Game: RPG/Immersive**: เหมาะสำหรับเกม RPG ที่ต้องการสีสันสดใส (Preset 0x02, Contrast 80, RGB 50/50/50, Brightness 95, Software Brightness 1.0)
 8. **Max Mode**: โหมดสูงสุด (Preset 0x08, Contrast 100, RGB 80/80/80, Brightness 100, Software Brightness 1.2)
 
+## สคริปต์เสริม (Utility Scripts)
+
+### `extract_edid.py`
+สคริปต์ Python นี้ใช้สำหรับตรวจสอบและดึงข้อมูลดิบ (Raw EDID) จาก output ของ `ddcutil`.
+- **จำเป็นต้องใช้เมื่อไหร่**: จอพกพาบางรุ่น (เช่น RTK ตัวนี้) อาจจะไม่ยอมส่งค่า EDID ผ่านเครื่องมือปกติ
+- **มันทำอะไร**: สคริปต์นี้จะไปแกะรหัส Hex จากคำสั่ง `ddcutil detect --verbose` ออกมา เพื่อให้เรานำไปถอดรหัส (Decode) ดูสเปกเชิงลึกได้ (เช่น ค่าความสว่าง Nits, HDR)
+
 ## การแก้ปัญหา
 
 - **ไม่พบมอนิเตอร์**: ตรวจสอบว่ามอนิเตอร์เชื่อมต่ออย่างถูกต้องและ `ddcutil detect` สามารถตรวจจับได้ หากไม่พบ สคริปต์จะถามให้ force try บน Display 1
