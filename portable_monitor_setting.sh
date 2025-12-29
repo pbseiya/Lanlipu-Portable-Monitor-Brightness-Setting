@@ -4,6 +4,23 @@
 TARGET_MFG="RTK"
 TARGET_MODEL="6432" 
 
+# Check for ddcutil dependency
+if ! command -v ddcutil &> /dev/null; then
+    echo "Error: ddcutil is not installed."
+    read -p "Do you want to install it now? (y/n): " install_choice
+    if [ "$install_choice" == "y" ]; then
+        if [ -x "$(command -v apt-get)" ]; then
+            sudo apt-get update && sudo apt-get install -y ddcutil
+        else
+            echo "Package manager not found. Please install ddcutil manually."
+            exit 1
+        fi
+    else
+        echo "Please install ddcutil manually and run the script again."
+        exit 1
+    fi
+fi 
+
 # Function to detect the display number for the portable monitor
 get_monitor_display() {
     DISP_NUM=$(sudo ddcutil detect | grep -B 10 "$TARGET_MFG" | grep "Display" | head -n 1 | awk '{print $2}')

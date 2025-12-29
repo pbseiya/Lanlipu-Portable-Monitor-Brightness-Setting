@@ -5,7 +5,7 @@ A Bash script for adjusting brightness, contrast, and color settings of the RTK 
 ## Prerequisites
 
 - Linux OS supporting `ddcutil` and `xrandr`
-- `ddcutil` installed (install with `sudo apt install ddcutil` on Ubuntu/Debian)
+- `ddcutil` installed (The script will attempt to install it if missing on Ubuntu/Debian)
 - Sudo privileges to run `ddcutil` commands
 - RTK 6432 portable monitor connected and detectable
 
