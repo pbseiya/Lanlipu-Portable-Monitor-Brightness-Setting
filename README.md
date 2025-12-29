@@ -5,9 +5,14 @@ A Bash script for adjusting brightness, contrast, and color settings of the RTK 
 ## Prerequisites
 
 - Linux OS supporting `ddcutil` and `xrandr`
-- `ddcutil` installed (The script will attempt to install it if missing on Ubuntu/Debian)
+- `ddcutil` installed (install with `sudo apt install ddcutil` on Ubuntu/Debian)
+- Or `ddcutil` installed automatically by the script (The script portable_monitor_setting.sh will attempt to install it if missing on Ubuntu/Debian)
 - Sudo privileges to run `ddcutil` commands
 - RTK 6432 portable monitor connected and detectable
+- `uv` installed (Required for running the GUI). Install it with:
+  ```bash
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+  ```
 
 ## Installation
 
@@ -19,20 +24,36 @@ A Bash script for adjusting brightness, contrast, and color settings of the RTK 
 
 2. Make the script executable:
    ```
-   chmod +x portable_monitor_setting.sh
+   chmod +x cli/portable_monitor_setting.sh
    ```
 
 ## Usage
 
+### CLI (Command Line)
 Run the script with:
 ```
-./portable_monitor_setting.sh
+./cli/portable_monitor_setting.sh
 ```
 
 The script will:
 - Automatically detect the RTK 6432 portable monitor
 - Display a menu to select menu type (Simple or Advanced)
 - Apply appropriate settings based on the selected mode
+
+### GUI (Graphical Interface) - Experimental
+Navigate to the `gui` folder and run with `uv`:
+```
+cd gui
+uv run main.py
+```
+> **Note**: `uv run` will automatically install necessary dependencies (lazy syncing) the first time you run it.
+
+**GUI Features:**
+- **Preset Tabs:** Switch between "Simple" (Standard, Boost, Max) and "Advanced" (Coding, Gaming, Movie) modes easily.
+- **Fine Tuning Sliders:** Manually adjust Brightness, Contrast, and RGB values.
+- **Software Brightness (Gamma):** Extra brightness control (beyond hardware limits) using `xrandr`, useful for reading at night or boosting max brightness.
+
+
 
 ### Main Menus
 

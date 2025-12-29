@@ -5,9 +5,14 @@
 ## ข้อกำหนดเบื้องต้น
 
 - ระบบปฏิบัติการ Linux ที่รองรับ `ddcutil` และ `xrandr`
-- ติดตั้ง `ddcutil` (สคริปต์จะพยายามติดตั้งให้หากไม่มี บน Ubuntu/Debian)
+- ติดตั้ง `ddcutil` (สามารถติดตั้งได้ด้วย `sudo apt install ddcutil` บน Ubuntu/Debian)
+- หรือติดตั้งอัตโนมัติ `ddcutil` (สคริปต์ portable_monitor_setting.sh จะพยายามติดตั้งให้หากไม่มี บน Ubuntu/Debian)
 - สิทธิ์ sudo สำหรับรันคำสั่ง `ddcutil`
 - พอร์ทเทเบิลมอนิเตอร์ RTK 6432 เชื่อมต่อและตรวจจับได้
+- ติดตั้ง `uv` (จำเป็นสำหรับใช้งาน GUI) ติดตั้งด้วยคำสั่ง:
+  ```bash
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+  ```
 
 ## การติดตั้ง
 
@@ -19,20 +24,36 @@
 
 2. ทำให้ไฟล์สคริปต์เป็นไฟล์ที่รันได้:
    ```
-   chmod +x portable_monitor_setting.sh
+   chmod +x cli/portable_monitor_setting.sh
    ```
 
 ## การใช้งาน
 
+### CLI (Command Line)
 รันสคริปต์โดยใช้คำสั่ง:
 ```
-./portable_monitor_setting.sh
+./cli/portable_monitor_setting.sh
 ```
 
 สคริปต์จะ:
 - ตรวจจับพอร์ทเทเบิลมอนิเตอร์ RTK 6432 อัตโนมัติ
 - แสดงเมนูให้เลือกประเภทเมนู (Simple หรือ Advanced)
 - ใช้การตั้งค่าที่เหมาะสมตามโหมดที่เลือก
+
+### GUI (Original Interface) - Experimental
+เข้าไปที่โฟลเดอร์ `gui` และรันด้วย `uv`:
+```
+cd gui
+uv run main.py
+```
+> **หมายเหตุ**: เมื่อใช้คำสั่ง `uv run` ระบบจะทำการดาวน์โหลดและติดตั้ง dependencies ที่จำเป็นให้โดยอัตโนมัติในครั้งแรก
+
+**ความสามารถของ GUI:**
+- **เลือกโหมดง่ายๆ (Preset Tabs):** แบ่งหมวดหมู่เป็น Simple และ Advanced ให้เลือกกดได้ทันที
+- **ปรับแต่งละเอียด (Sliders):** เลื่อนปรับค่า Brightness, Contrast, RGB ได้เองตามต้องการ
+- **ปรับความสว่างซอฟต์แวร์ (Gamma):** ช่วยลดแสงให้มืดกว่าปกติ (สำหรับอ่าน eBook) หรือเร่งให้สว่างกว่าปกติได้ด้วย `xrandr`
+
+
 
 ### เมนูหลัก
 
