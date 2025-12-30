@@ -1,10 +1,15 @@
 import sys
 import subprocess
 import re
+import os
+from dotenv import load_dotenv
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QLabel, QVBoxLayout, 
                              QWidget, QSlider, QHBoxLayout, QMessageBox, 
                              QPushButton, QTabWidget, QGridLayout)
 from PyQt6.QtCore import Qt
+
+# Load env variables
+load_dotenv()
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -12,6 +17,12 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle("Lanlipu Portable Monitor Settings")
         self.setGeometry(100, 100, 500, 650)
+        
+        # Sudo Password
+        self.SUDO_PASS = os.getenv("SUDO_PASSWORD")
+        if not self.SUDO_PASS:
+             QMessageBox.warning(self, "Warning", "SUDO_PASSWORD not found in .env\nSome features may not work.")
+
         
         # Data: Presets from shell script
         # Format: [Preset(VCP 14), Contrast(12), Red(16), Green(18), Blue(1A), Brightness(10), Gamma(SW)]
@@ -76,14 +87,21 @@ class MainWindow(QMainWindow):
         # Blue (VCP 1A)
         main_layout.addLayout(self.create_slider("Blue Gain", 0x1A, 0, 100, 50, "blue"))
 
+        # Sharpness (VCP 87)
+        main_layout.addLayout(self.create_slider("Sharpness", 0x87, 0, 10, 5, "sharpness"))
+
         # --- Software Controls (xrandr) ---
         # Gamma / SW Brightness
-        main_layout.addLayout(self.create_gamma_slider("SW Brightness (Gamma)", 10, 200, 100, "gamma"))
+        main_layout.addLayout(self.create_gamma_slider("SW Brightness (xrandr)", 10, 200, 100, "sw_brightness", self.set_sw_brightness))
+        
+        # SW Contrast / Gamma
+        main_layout.addLayout(self.create_gamma_slider("SW Contrast (Gamma)", 50, 250, 100, "sw_contrast", self.set_sw_contrast))
 
         # Container
         container = QWidget()
         container.setLayout(main_layout)
         self.setCentralWidget(container)
+
 
     def create_simple_tab(self):
         tab = QWidget()
@@ -142,36 +160,29 @@ class MainWindow(QMainWindow):
         # [Preset(0), Contrast(1), Red(2), Green(3), Blue(4), Brightness(5), Gamma(6)]
         preset_vcp, contrast, red, green, blue, brightness, gamma = values
         
-        # 1. Update Sliders (This determines visual state + triggers single updates)
-        # Note: Ideally we should block signals if we want to batch send, 
-        # but to keep simple consistent logic with valid 'sliderReleased', we can just set them.
-        # However, setPreset uses 'setvcp' directly usually. 
-        # But 'sliderReleased' only fires on user interaction. setValue() does NOT trigger sliderReleased.
-        # So we must call set_vcp manually or relying on valueChanged (which is spammy).
-        # We used sliderReleased in create_slider. So setValue() simply updates UI.
-        
         self.sliders["brightness"].setValue(brightness)
         self.sliders["contrast"].setValue(contrast)
         self.sliders["red"].setValue(red)
         self.sliders["green"].setValue(green)
         self.sliders["blue"].setValue(blue)
-        self.sliders["gamma"].setValue(int(gamma * 100))
+        self.sliders["sw_brightness"].setValue(int(gamma * 100))
+        # Reset SW Contrast to default 1.0
+        self.sliders["sw_contrast"].setValue(100)
         
-        # 2. Send Actual Commands (Batch / Sequential)
-        # We also need to send the 'Preset VCP 14' command which has no slider
         self.set_vcp(0x14, preset_vcp) 
         self.set_vcp(0x12, contrast)
         self.set_vcp(0x16, red)
         self.set_vcp(0x18, green)
         self.set_vcp(0x1A, blue)
         self.set_vcp(0x10, brightness)
-        self.set_gamma(int(gamma * 100))
+        self.set_sw_brightness(int(gamma * 100))
+        self.set_sw_contrast(100) # Reset Gamma
         
         print("Preset Applied!")
 
     def get_monitor_id(self):
         try:
-            cmd = "sudo ddcutil detect"
+            cmd = f"echo '{self.SUDO_PASS}' | sudo -S ddcutil detect"
             result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
             output = result.stdout
             if "RTK" in output or "6432" in output:
@@ -215,7 +226,7 @@ class MainWindow(QMainWindow):
         self.sliders[key] = slider
         return layout
 
-    def create_gamma_slider(self, label_text, min_val, max_val, default_val, key):
+    def create_gamma_slider(self, label_text, min_val, max_val, default_val, key, callback):
         layout = QVBoxLayout()
         header_layout = QHBoxLayout()
         label = QLabel(label_text)
@@ -231,7 +242,7 @@ class MainWindow(QMainWindow):
         slider.setValue(default_val)
         
         slider.valueChanged.connect(lambda val: value_label.setText(f"{val/100:.2f}"))
-        slider.sliderReleased.connect(lambda: self.set_gamma(slider.value()))
+        slider.sliderReleased.connect(lambda: callback(slider.value()))
         
         layout.addWidget(slider)
         self.sliders[key] = slider
@@ -240,14 +251,24 @@ class MainWindow(QMainWindow):
     def set_vcp(self, vcp_code, value):
         print(f"DDC: Setting VCP {hex(vcp_code)} to {value}...")
         try:
-            subprocess.run(f"sudo ddcutil setvcp {hex(vcp_code)} {value} --display {self.display_id}", shell=True)
+            cmd = f"echo '{self.SUDO_PASS}' | sudo -S ddcutil setvcp {hex(vcp_code)} {value} --display {self.display_id}"
+            subprocess.run(cmd, shell=True)
         except Exception as e: print(e)
 
-    def set_gamma(self, int_value):
+    def set_sw_brightness(self, int_value):
         float_val = int_value / 100.0
         print(f"xrandr: Setting brightness to {float_val}...")
         try:
             subprocess.run(f"xrandr --output {self.xrandr_output} --brightness {float_val}", shell=True)
+        except Exception as e: print(e)
+
+    def set_sw_contrast(self, int_value):
+        float_val = int_value / 100.0
+        # Gamma R:G:B
+        gamma_str = f"{float_val}:{float_val}:{float_val}"
+        print(f"xrandr: Setting gamma to {gamma_str}...")
+        try:
+            subprocess.run(f"xrandr --output {self.xrandr_output} --gamma {gamma_str}", shell=True)
         except Exception as e: print(e)
 
 def main():

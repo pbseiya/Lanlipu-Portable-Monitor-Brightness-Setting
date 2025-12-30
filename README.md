@@ -27,6 +27,18 @@ A Bash script for adjusting brightness, contrast, and color settings of the RTK 
    chmod +x cli/portable_monitor_setting.sh
    ```
 
+## Configuration
+
+To use the GUI without repeatedly entering the sudo password, create a `.env` file in the `gui` folder:
+1. Copy the example file:
+   ```bash
+   cp gui/.env.example gui/.env
+   ```
+2. Edit `gui/.env` and add your sudo password:
+   ```env
+   SUDO_PASSWORD=your_password
+   ```
+
 ## Usage
 
 ### CLI (Command Line)

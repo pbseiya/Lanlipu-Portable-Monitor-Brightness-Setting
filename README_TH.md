@@ -27,6 +27,18 @@
    chmod +x cli/portable_monitor_setting.sh
    ```
 
+## การตั้งค่า (Configuration)
+
+เพื่อใช้งาน GUI โดยไม่ต้องกรอกรหัสผ่าน sudo ทุกครั้ง ให้สร้างไฟล์ `.env` ในโฟลเดอร์ `gui`:
+1. คัดลอกไฟล์ตัวอย่าง:
+   ```bash
+   cp gui/.env.example gui/.env
+   ```
+2. แก้ไขไฟล์ `gui/.env` และใส่รหัสผ่าน sudo ของคุณ:
+   ```env
+   SUDO_PASSWORD=รหัสผ่านของคุณ
+   ```
+
 ## การใช้งาน
 
 ### CLI (Command Line)
