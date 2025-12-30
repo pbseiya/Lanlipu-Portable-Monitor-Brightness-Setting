@@ -65,7 +65,23 @@ uv run main.py
 - **Fine Tuning Sliders:** Manually adjust Brightness, Contrast, and RGB values.
 - **Software Brightness (Gamma):** Extra brightness control (beyond hardware limits) using `xrandr`, useful for reading at night or boosting max brightness.
 
+**Screenshots:**
 
+| Simple Menu | Advanced Menu |
+| :---: | :---: |
+| ![Simple Menu](doc_images/gui_simple.png) | ![Advanced Menu](doc_images/gui_advanced.png) |
+
+
+
+
+### Fine Tuning Controls Explained
+
+- **HW Brightness**: Controls the backlight intensity of the monitor (Hardware VCP 10).
+- **HW Contrast**: Adjusts the difference between light and dark areas (Hardware VCP 12).
+- **HW Red/Green/Blue Gain**: Adjusts the intensity of each color channel (Hardware Color Temperature).
+- **HW Sharpness**: Adjusts the clarity of text and edges (Hardware VCP 87).
+- **SW Brightness (xrandr)**: Software-based brightness adjustment. Useful for dimming the screen below the hardware minimum (for night reading) or boosting it.
+- **SW Contrast (Gamma)**: Software-based gamma correction. Adjusts the perceived contrast curve (Standard is 1.00).
 
 ### Main Menus
 
