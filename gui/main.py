@@ -76,19 +76,19 @@ class MainWindow(QMainWindow):
         main_layout.addLayout(self.create_slider("HW Brightness", 0x10, 0, 100, 100, "brightness"))
         
         # Contrast (VCP 12)
-        main_layout.addLayout(self.create_slider("Contrast", 0x12, 0, 100, 50, "contrast"))
+        main_layout.addLayout(self.create_slider("HW Contrast", 0x12, 0, 100, 50, "contrast"))
         
         # Red (VCP 16)
-        main_layout.addLayout(self.create_slider("Red Gain", 0x16, 0, 100, 50, "red"))
+        main_layout.addLayout(self.create_slider("HW Red Gain", 0x16, 0, 100, 50, "red"))
         
         # Green (VCP 18)
-        main_layout.addLayout(self.create_slider("Green Gain", 0x18, 0, 100, 50, "green"))
+        main_layout.addLayout(self.create_slider("HW Green Gain", 0x18, 0, 100, 50, "green"))
         
         # Blue (VCP 1A)
-        main_layout.addLayout(self.create_slider("Blue Gain", 0x1A, 0, 100, 50, "blue"))
+        main_layout.addLayout(self.create_slider("HW Blue Gain", 0x1A, 0, 100, 50, "blue"))
 
         # Sharpness (VCP 87)
-        main_layout.addLayout(self.create_slider("Sharpness", 0x87, 0, 10, 5, "sharpness"))
+        main_layout.addLayout(self.create_slider("HW Sharpness", 0x87, 0, 10, 5, "sharpness"))
 
         # --- Software Controls (xrandr) ---
         # Gamma / SW Brightness

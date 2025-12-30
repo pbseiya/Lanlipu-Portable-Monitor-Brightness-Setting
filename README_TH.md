@@ -65,7 +65,23 @@ uv run main.py
 - **ปรับแต่งละเอียด (Sliders):** เลื่อนปรับค่า Brightness, Contrast, RGB ได้เองตามต้องการ
 - **ปรับความสว่างซอฟต์แวร์ (Gamma):** ช่วยลดแสงให้มืดกว่าปกติ (สำหรับอ่าน eBook) หรือเร่งให้สว่างกว่าปกติได้ด้วย `xrandr`
 
+**ตัวอย่างหน้าจอ:**
 
+| Simple Menu | Advanced Menu |
+| :---: | :---: |
+| ![Simple Menu](doc_images/gui_simple.png) | ![Advanced Menu](doc_images/gui_advanced.png) |
+
+
+
+
+### คำอธิบายตัวปรับแต่งละเอียด (Fine Tuning Controls)
+
+- **HW Brightness**: ปรับความสว่างของหลอดไฟจอภาพ (Hardware VCP 10)
+- **HW Contrast**: ปรับความเปรียบต่างของแสงและเงา (Hardware VCP 12)
+- **HW Red/Green/Blue Gain**: ปรับค่าสีแดง เขียว น้ำเงิน (อุณหภูมิสี Hardware)
+- **HW Sharpness**: ปรับความคมชัดของภาพและตัวอักษร (Hardware VCP 87)
+- **SW Brightness (xrandr)**: ปรับความสว่างด้วยซอฟต์แวร์ เหมาะสำหรับลดแสงต่ำกว่าขีดจำกัดฮาร์ดแวร์ (เช่น อ่านหนังสือตอนกลางคืน) หรือเร่งแสง
+- **SW Contrast (Gamma)**: ปรับค่า Gamma (Contrast แบบซอฟต์แวร์) ค่ามาตรฐานคือ 1.00
 
 ### เมนูหลัก
 
