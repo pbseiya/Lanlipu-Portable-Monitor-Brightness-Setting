@@ -18,7 +18,7 @@
 
 1. โคลน repository นี้ไปยังเครื่องของคุณ:
    ```
-   git clone https://github.com/pbseiya/lanlipu_portable_monitor_brightness_setting.git
+   git clone https://github.com/pbseiya/Lanlipu-Portable-Monitor-Brightness-Setting.git
    cd lanlipu_portable_monitor_brightness_setting
    ```
 

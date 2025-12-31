@@ -18,7 +18,7 @@ A Bash script for adjusting brightness, contrast, and color settings of the RTK 
 
 1. Clone this repository to your machine:
    ```
-   git clone https://github.com/pbseiya/lanlipu_portable_monitor_brightness_setting.git
+   git clone https://github.com/pbseiya/Lanlipu-Portable-Monitor-Brightness-Setting.git
    cd lanlipu_portable_monitor_brightness_setting
    ```
 
