@@ -1,4 +1,4 @@
-# lanlipu_portable_monitor_brightness_setting
+# Lanlipu Portable Monitor Brightness Setting
 
 สคริปต์ Bash สำหรับตั้งค่าความสว่าง ความคมชัด และสีของพอร์ทเทเบิลมอนิเตอร์ RTK (RealTek) 6432 โดยใช้เครื่องมือ `ddcutil` และ `xrandr` เพื่อควบคุมทั้งฮาร์ดแวร์และซอฟต์แวร์
 

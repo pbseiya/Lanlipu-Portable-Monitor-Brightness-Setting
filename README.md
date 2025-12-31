@@ -1,4 +1,4 @@
-# lanlipu_portable_monitor_brightness_setting
+# Lanlipu Portable Monitor Brightness Setting
 
 A Bash script for adjusting brightness, contrast, and color settings of the RTK (RealTek) 6432 portable monitor using `ddcutil` and `xrandr` to control both hardware and software.
 
