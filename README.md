@@ -1,5 +1,8 @@
 # Lanlipu Portable Monitor Brightness Setting
 
+![Lazada Product](https://raw.githubusercontent.com/pbseiya/Lanlipu-Portable-Monitor-Brightness-Setting/main/doc_images/lazada_product.png)
+![Price Summary](https://raw.githubusercontent.com/pbseiya/Lanlipu-Portable-Monitor-Brightness-Setting/main/doc_images/lazada_price.png)
+
 A Bash script for adjusting brightness, contrast, and color settings of the RTK (RealTek) 6432 portable monitor using `ddcutil` and `xrandr` to control both hardware and software.
 
 ## Prerequisites
